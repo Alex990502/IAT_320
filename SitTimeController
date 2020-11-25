@@ -1,0 +1,77 @@
+#include <Adafruit_CircuitPlayground.h>
+
+float acc[3];
+float timer = 0;
+bool sitTooLong;
+bool moving;
+void setup() {
+  Serial.begin(9600);
+  CircuitPlayground.begin();
+}
+
+void loop() {
+  
+  acc[0] = CircuitPlayground.motionX();
+  acc[1] = CircuitPlayground.motionY();
+  acc[2] = CircuitPlayground.motionZ();
+
+  if (timer != 100 ) {//work
+    timer++;
+    sitTooLong = false;
+  } else {
+    sitTooLong = true;
+  }
+
+  if (acc[0] < 4) { //work
+    moving = false;
+    Serial.print("notMove");
+  } else {
+    moving = true;
+    Serial.print("Move");
+  }
+
+  if (sitTooLong == false) { //work
+    Serial.print("tooShort");
+  } else {
+    Serial.print("tooLong");
+  }
+
+  if (sitTooLong == true) {
+    if (moving == false) {
+      CircuitPlayground.playTone(800, 500);
+      CircuitPlayground.setPixelColor(0, 255, 241, 0);
+      CircuitPlayground.setPixelColor(1, 255, 140, 0);
+      CircuitPlayground.setPixelColor(2,   232, 17, 35);
+      CircuitPlayground.setPixelColor(3,   236, 0, 140);
+      CircuitPlayground.setPixelColor(4,   104, 33, 122);
+      CircuitPlayground.setPixelColor(5, 0, 24, 143);
+      CircuitPlayground.setPixelColor(6, 0, 188, 242);
+      CircuitPlayground.setPixelColor(7,   0, 178, 148);
+      CircuitPlayground.setPixelColor(8,   0, 158, 73);
+      CircuitPlayground.setPixelColor(9,   186, 216, 10);
+      delay(100);
+    } else {
+      CircuitPlayground.setPixelColor(0, 0, 0, 0);
+      CircuitPlayground.setPixelColor(1, 0, 0, 0);
+      CircuitPlayground.setPixelColor(2,   0, 0, 0);
+      CircuitPlayground.setPixelColor(3,   0, 0, 0);
+      CircuitPlayground.setPixelColor(4,   0, 0, 0);
+      CircuitPlayground.setPixelColor(5, 0, 0, 0);
+      CircuitPlayground.setPixelColor(6, 0, 0, 0);
+      CircuitPlayground.setPixelColor(7,   0, 0, 0);
+      CircuitPlayground.setPixelColor(8,   0, 0, 0);
+      CircuitPlayground.setPixelColor(9,   0, 0, 0);
+      timer=0;
+    }
+  }
+
+ 
+
+
+
+
+  Serial.print(timer);
+  Serial.print(" ");
+  Serial.println(acc[0]);
+  delay(100);
+}
