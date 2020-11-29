@@ -1,0 +1,72 @@
+
+#include <Adafruit_NeoPixel.h>
+#include <Adafruit_CircuitPlayground.h>
+#include <Wire.h>
+#include <SPI.h>
+
+
+#define PIN       6 
+#define NUMPIXELS 1
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+#define DELAYVAL 500 
+
+void setup() {
+  Serial.begin(115200);
+  CircuitPlayground.begin();
+  pixels.begin(); 
+  CircuitPlayground.strip.setBrightness(255);
+}
+
+void loop() {
+
+  pixels.clear(); 
+
+  delay(200);
+
+
+    CircuitPlayground.clearPixels();
+
+    uint8_t red, green, blue;
+    CircuitPlayground.senseColor(red, green, blue);
+
+//    Serial.print("Color: red=");
+//    Serial.print(red, DEC);
+//    Serial.print(" green=");
+//    Serial.print(green, DEC);
+//    Serial.print(" blue=");
+//    Serial.println(blue, DEC);
+
+    //red
+    if (red > blue && red > green) {
+      CircuitPlayground.playTone(800, 500);
+      pixels.setPixelColor(0, 255, 0, 0);
+      Serial.print(10);
+      Serial.println(" ");
+      pixels.show();   
+      delay(4000);
+    }//blue
+    if (blue > red && blue > green) {
+      CircuitPlayground.playTone(200, 500);
+      pixels.setPixelColor(0, 0, 0, 255);
+      Serial.print(20);
+      Serial.println(" ");
+      pixels.show();   
+      delay(4000);
+    }//green
+    if (green > blue && green > red) {
+      CircuitPlayground.playTone(400, 800);
+      pixels.setPixelColor(0, 0, 255, 0);
+      Serial.print(30);
+      Serial.println(" ");
+      pixels.show();   
+      delay(4000);
+    }
+
+
+    red   = CircuitPlayground.gamma8(red);
+    green = CircuitPlayground.gamma8(green);
+    blue  = CircuitPlayground.gamma8(blue);
+    
+    CircuitPlayground.strip.show();
+  
+}
