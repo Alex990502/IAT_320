@@ -6,7 +6,7 @@
 
 
 #define PIN       6 
-#define NUMPIXELS 1
+#define NUMPIXELS 1         //size of NeoPixel
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 #define DELAYVAL 500 
 
@@ -19,17 +19,17 @@ void setup() {
 
 void loop() {
 
-  pixels.clear(); 
+  pixels.clear();       //code from lab, check 
 
   delay(200);
 
 
-    CircuitPlayground.clearPixels();
+    CircuitPlayground.clearPixels();   //turn off all the pixels to make sure they don't interfere with the reading.
 
     uint8_t red, green, blue;
     CircuitPlayground.senseColor(red, green, blue);
 
-//    Serial.print("Color: red=");
+//    Serial.print("Color: red=");  // Print out the color components.  for test part
 //    Serial.print(red, DEC);
 //    Serial.print(" green=");
 //    Serial.print(green, DEC);
@@ -37,12 +37,12 @@ void loop() {
 //    Serial.println(blue, DEC);
 
     //red
-    if (red > blue && red > green) {
-      CircuitPlayground.playTone(800, 500);
-      pixels.setPixelColor(0, 255, 0, 0);
-      Serial.print(10);
+    if (red > blue && red > green) {  //check what color that color sensor detected
+      CircuitPlayground.playTone(800, 500);  // create sound base on the color
+      pixels.setPixelColor(0, 255, 0, 0);    //set the color of the NeoPixel
+      Serial.print(10);                      //data that send to processing
       Serial.println(" ");
-      pixels.show();   
+      pixels.show();                         //turn on the Neopixel
       delay(4000);
     }//blue
     if (blue > red && blue > green) {
@@ -63,7 +63,7 @@ void loop() {
     }
 
 
-    red   = CircuitPlayground.gamma8(red);
+    red   = CircuitPlayground.gamma8(red);   // Gamma correction makes LED brightness appear more linear, from adafruit conlor_sensor example
     green = CircuitPlayground.gamma8(green);
     blue  = CircuitPlayground.gamma8(blue);
     
