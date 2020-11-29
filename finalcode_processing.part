@@ -1,0 +1,47 @@
+import processing.serial.*;
+
+Serial myPort;
+
+PImage img1, img2, img3;
+
+String data;
+String a="red";
+
+void setup() {
+  size(800, 800);
+  img1 = loadImage("hare.png");
+  img2 = loadImage("hyena.png");
+  img3 = loadImage("tiger.png");
+  printArray(Serial.list());
+  myPort = new Serial(this, Serial.list()[1], 115200);
+  myPort.bufferUntil('\n');
+}
+
+void draw() {
+  background(color(255, 255, 255));
+
+  while (myPort.available() > 0) {
+    data = myPort.readStringUntil('\n');
+  }
+  if (data != null) {
+    float[] nums = float(split(trim(data), ' '));
+    print(data);// detect which color send from arduino
+    if (nums[0] == 10) {//red
+      image(img3, 150, 150);
+      //background(color(255, 0, 0));
+    } 
+    if (nums[0] == 20) {//blue
+      image(img2, 150, 150);
+      //background(color(0, 0, 255));
+    } 
+    if (nums[0] == 30) {//green
+      image(img1, 150, 150);
+      //background(color(0, 255, 0));
+    }
+
+    //if (data.equals(a)==true) {//not work-----------problem here  ,also not work in        if(data=="red"){}
+    //background(color(255, 0, 0));
+    //}
+    //background(color(255, 0, 0));
+  }
+}
