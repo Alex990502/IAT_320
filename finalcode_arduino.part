@@ -46,7 +46,7 @@ void loop() {
       delay(4000);
     }//blue
     if (blue > red && blue > green) {
-      CircuitPlayground.playTone(200, 500);
+      CircuitPlayground.playTone(800, 500);
       pixels.setPixelColor(0, 0, 0, 255);
       Serial.print(20);
       Serial.println(" ");
@@ -54,7 +54,7 @@ void loop() {
       delay(4000);
     }//green
     if (green > blue && green > red) {
-      CircuitPlayground.playTone(400, 800);
+      CircuitPlayground.playTone(800, 500);
       pixels.setPixelColor(0, 0, 255, 0);
       Serial.print(30);
       Serial.println(" ");
